@@ -18,12 +18,12 @@ impl ByteStr {
     pub fn slice(&self, from: usize, to: usize) -> ByteStr {
         assert!(self.as_str().is_char_boundary(from));
         assert!(self.as_str().is_char_boundary(to));
-        ByteStr(self.0.slice(from, to))
+        ByteStr(self.0.slice(from..to))
     }
 
     pub fn slice_to(&self, idx: usize) -> ByteStr {
         assert!(self.as_str().is_char_boundary(idx));
-        ByteStr(self.0.slice_to(idx))
+        ByteStr(self.0.slice(..idx))
     }
 
     pub fn as_str(&self) -> &str {
@@ -52,6 +52,6 @@ impl Deref for ByteStr {
 
 impl<'a> From<&'a str> for ByteStr {
     fn from(s: &'a str) -> ByteStr {
-        ByteStr(Bytes::from(s))
+        ByteStr(Bytes::from(s.to_owned()))
     }
 }

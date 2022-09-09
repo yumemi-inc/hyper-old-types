@@ -159,18 +159,16 @@ pub fn http_percent_encode(f: &mut fmt::Formatter, bytes: &[u8]) -> fmt::Result 
 }
 
 mod percent_encoding_http {
-    use percent_encoding;
+    use percent_encoding::{AsciiSet, CONTROLS};
 
-    // internal module because macro is hard-coded to make a public item
-    // but we don't want to public export this item
-    define_encode_set! {
-        // This encode set is used for HTTP header values and is defined at
-        // https://tools.ietf.org/html/rfc5987#section-3.2
-        pub HTTP_VALUE = [percent_encoding::SIMPLE_ENCODE_SET] | {
-            ' ', '"', '%', '\'', '(', ')', '*', ',', '/', ':', ';', '<', '-', '>', '?',
-            '[', '\\', ']', '{', '}'
-        }
-    }
+    // This encode set is used for HTTP header values and is defined at
+    // https://tools.ietf.org/html/rfc5987#section-3.2
+    pub const HTTP_VALUE: &AsciiSet = &CONTROLS
+        .add(b' ').add(b'"').add(b'%').add(b'\'').add(b'(')
+        .add(b')').add(b'*').add(b',').add(b'/').add(b':')
+        .add(b';').add(b'<').add(b'-').add(b'>').add(b'?')
+        .add(b'[').add(b'\\').add(b']').add(b'{').add(b'}')
+    ;
 }
 
 #[cfg(test)]

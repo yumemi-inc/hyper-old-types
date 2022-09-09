@@ -190,6 +190,7 @@ macro_rules! test_header {
 }
 
 #[macro_export]
+#[allow(missing_docs)]
 macro_rules! header {
     // $a:meta: Attributes associated with the header item (usually docs)
     // $id:ident: Identifier of the header
